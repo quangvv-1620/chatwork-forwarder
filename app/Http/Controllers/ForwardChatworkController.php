@@ -20,6 +20,47 @@ class ForwardChatworkController extends Controller
         $this->messageHistoryRepository = $mesHisRepo;
     }
 
+    /**
+    * @SWG\Post(
+    *   path="api/v1/webhooks/{token}",
+    *   summary="Sending payload to chatwork",
+    *   operationId="store",
+    *   tags={"Forward Chatwork"},
+    *   security={
+    *       {"ApiKeyAuth": {}}
+    *   },
+    *   @SWG\Parameter(
+    *       name="token",
+    *       in="path",
+    *       required=true,
+    *       type="string",
+    *       description="Webhook token",
+    *   ),
+    *   @SWG\Parameter(
+    *       name="params",
+    *       in="formData",
+    *       required=true,
+    *       description="This is params you send to webhook",
+    *       type="array",
+    *           @SWG\Items(
+    *               @SWG\Property(
+    *                   property="clientId",
+    *                   type="integer",
+    *                   description="passing clientId from headers", 
+    *                   example=1 
+    *               ),        
+    *               @SWG\Property(   
+    *                   property="accessToken",
+    *                   type="string",
+    *                   description="passing accessToken from headers", 
+    *                   example="tyedgfhjgu" 
+    *               )
+    *           )
+    *   ),
+    *   @SWG\Response(response=200, description="successful operation")
+    * )
+    *
+    */
     public function forwardMessage(Request $request, $token)
     {
         $params = json_decode(json_encode((object) $request->all()), false);
